@@ -1,16 +1,14 @@
-import { ImageSize } from './anomaly.bo';
+import { ShieldInfo } from './anomaly.bo';
 
 export interface AnomalyParam {
   imageName: string;
-  dbPath: string;
+  imagePath: string;
   imageBuf: Buffer;
-  imageSize: ImageSize;
+  dbName: string;
   flawCount: number;
   anomalyThreshold: number;
   ignores: number[];
   isFirst: boolean;
-  dieNum: number;
-  dieBuffer: Buffer;
   pos: Pos;
   lensParams: LensParams;
   mappingParams: MappingParams;
@@ -18,6 +16,7 @@ export interface AnomalyParam {
   roiCornerPoint: any;
   chipNum: number;
   chipSize: number[];
+  shildInfo: ShieldInfo;
   imageSavePath: string;
   maskSavePath: string;
 }
