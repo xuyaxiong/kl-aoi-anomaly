@@ -38,6 +38,7 @@ export class AnomalyService {
     const fnoStr = args[0];
     const detectBuffer = cache.get(fnoStr);
     const { flawList, anomalyList } = parseAnomalyBuf(
+      parseInt(fnoStr),
       detectBuffer,
       20,
       384,
@@ -167,6 +168,7 @@ export class AnomalyService {
 }
 
 function parseAnomalyBuf(
+  fno: number,
   anomalyBuf: Buffer,
   flawCount: number,
   flawDIM: number,
@@ -201,7 +203,7 @@ function parseAnomalyBuf(
     });
     const key = `${R}-${C}-${chipId}`;
     if (!anomalyMap.has(key)) {
-      anomalyMap.set(key, { R, C, chipId, types: [] });
+      anomalyMap.set(key, { fno, R, C, chipId, types: [] });
     }
     anomalyMap.get(key)['types'].push(type);
   }
