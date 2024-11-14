@@ -10,6 +10,7 @@ import { anomaly1Dll } from '../wrapper/anomaly';
 import rectifyDll from '../wrapper/rectify';
 
 const resolveMap = new Map();
+const cache = new Map();
 
 @Injectable()
 export class AnomalyService {
@@ -34,9 +35,15 @@ export class AnomalyService {
   }
 
   private listener(args) {
-    const imgName = args[0];
-    const { flawList, anomalyList } = parseAnomalyBuf(args[3], 20, 384, 395);
-    resolveMap.get(imgName)({ flawList, anomalyList });
+    const fnoStr = args[0];
+    const detectBuffer = cache.get(fnoStr);
+    const { flawList, anomalyList } = parseAnomalyBuf(
+      detectBuffer,
+      20,
+      384,
+      395,
+    );
+    resolveMap.get(fnoStr)({ flawList, anomalyList });
   }
 
   private initEngine() {
@@ -53,6 +60,7 @@ export class AnomalyService {
 
   async anomaly(anomalyParam: AnomalyParam) {
     const res = await this._anomaly(
+      anomalyParam.fno,
       anomalyParam.imageName,
       anomalyParam.imagePath,
       anomalyParam.dbName,
@@ -94,6 +102,7 @@ export class AnomalyService {
   }
 
   private _anomaly(
+    fno: number,
     imageName: string,
     imagePath: string,
     dbPath: string,
@@ -114,7 +123,9 @@ export class AnomalyService {
     imageSavePath: string,
     maskSavePath: string,
   ) {
+    const fnoStr = fno.toString();
     let detectBuffer = Buffer.alloc(flawCount * offset * 4);
+    cache.set(fnoStr, detectBuffer);
     let { shildNum, shildBuf } = this._loadShild(
       shildInfo.path,
       shildInfo.row,
@@ -122,7 +133,7 @@ export class AnomalyService {
     );
     let image = loadImage(imagePath, this.width, this.height, this.channel);
     const retVal = anomaly1Dll.anomalyDetect_FULL2(
-      imageName,
+      fnoStr,
       dbPath,
       image.buffer,
       this.height,
@@ -150,7 +161,7 @@ export class AnomalyService {
     console.log('retVal =', retVal);
     return new Promise((resolve, reject) => {
       if (retVal !== 1) reject(retVal);
-      resolveMap.set(imageName, resolve);
+      resolveMap.set(fnoStr, resolve);
     });
   }
 }

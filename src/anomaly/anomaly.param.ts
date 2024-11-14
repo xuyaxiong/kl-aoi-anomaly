@@ -1,6 +1,7 @@
 import { ShieldInfo } from './anomaly.bo';
 
 export interface AnomalyParam {
+  fno: number;
   imageName: string;
   imagePath: string;
   imageBuf: Buffer;
