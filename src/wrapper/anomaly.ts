@@ -1,12 +1,14 @@
 const FFI = require('ffi-napi');
-const DLL_PATH = 'D:\\kl-storage\\dll\\';
+const path = require('path');
+import AppConfig from '../app.config';
+const DLL_PATH = AppConfig.DLL_PATH;
 const ffiCb = new Map();
 
 const anomaly = (anomalyName) => {
   const pathArray = process.env.PATH.split(';');
   pathArray.unshift(DLL_PATH);
   process.env.PATH = pathArray.join(';');
-  const Library = new FFI.Library(DLL_PATH + `${anomalyName}.dll`, {
+  const Library = new FFI.Library(path.join(DLL_PATH, `${anomalyName}.dll`), {
     initEngine: ['bool', ['string', 'int', 'int', 'int', 'int', 'int']],
 
     destroyEngine: ['bool', []],
@@ -38,21 +40,6 @@ const anomaly = (anomalyName) => {
         'double*',
         'string',
         'string',
-      ],
-    ],
-
-    getChipCoors: [
-      'void',
-      [
-        'int',
-        'int',
-        'int',
-        'double *',
-        'double*',
-        'double*',
-        'double*',
-        'double*',
-        'double *',
       ],
     ],
 

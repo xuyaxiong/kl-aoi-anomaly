@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as fs from 'fs';
 import { spawn } from 'child_process';
-import { join } from 'path';
+const path = require('path');
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import AppConfig from './app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,10 +28,10 @@ function swaggerDoc(app) {
 }
 
 function dllDump(port: number) {
-  const crashDir = 'D:\\kl-storage\\crashDump\\';
+  const crashDir = AppConfig.CRASH_DUMP_DIR;
   fs.mkdirSync(crashDir, { recursive: true });
-  const crashPath = `${crashDir}${Date.now()}.dmp`;
-  let procdumpPath = join(__dirname, 'procdump.exe');
+  const crashPath = path.join(crashDir, `${Date.now()}.dmp`);
+  let procdumpPath = path.join(__dirname, 'procdump.exe');
   const procdump = spawn(procdumpPath, [
     '-accepteula',
     '-e',

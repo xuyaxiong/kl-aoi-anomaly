@@ -196,6 +196,7 @@ function parseAnomalyBuf(
     idx += 3;
     const type = arr[idx];
     flawList.push({
+      fno,
       type,
       feature,
       position,
