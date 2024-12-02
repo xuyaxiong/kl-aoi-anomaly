@@ -16,6 +16,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: configLogger(),
   });
+  app.setGlobalPrefix('/api');
   app.useGlobalInterceptors(new LoggingInterceptor());
   swaggerDoc(app);
   dllDump(process.pid);
