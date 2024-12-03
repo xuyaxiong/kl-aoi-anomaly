@@ -187,12 +187,14 @@ function parseAnomalyBuf(
       .floatToBuffer()
       .toString('base64');
     idx += flawDIM;
-    position.push(arr[idx], arr[idx + 1]);
+    // position.push(arr[idx], arr[idx + 1]);
     idx += 2;
     const rowColId = arr.slice(idx, idx + 3);
     const C = rowColId[0];
     const R = rowColId[1];
     const chipId = rowColId[2];
+    position.push(C);
+    position.push(R);
     idx += 3;
     const type = arr[idx];
     flawList.push({
