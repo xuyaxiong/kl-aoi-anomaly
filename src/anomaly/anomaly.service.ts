@@ -36,11 +36,12 @@ export class AnomalyService {
 
   private listener(args) {
     const fnoStr = args[0];
+    const flawCount = args[2];
     const detectBuffer = cache.get(fnoStr);
     const { flawList, anomalyList } = parseAnomalyBuf(
       parseInt(fnoStr),
       detectBuffer,
-      20,
+      flawCount,
       384,
       395,
     );
