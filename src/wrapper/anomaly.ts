@@ -98,5 +98,4 @@ const anomaly = (anomalyName) => {
   return Library;
 };
 const anomaly1Dll = anomaly('anomaly');
-const anomaly2Dll = anomaly('anomaly2');
-export { anomaly1Dll, anomaly2Dll };
+export { anomaly1Dll };
