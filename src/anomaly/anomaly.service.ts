@@ -15,7 +15,6 @@ const cache = new Map();
 @Injectable()
 export class AnomalyService {
   private enginePath: string;
-  private flawCount: number;
   private flawDIM: number;
   private offset: number;
   private channel: number;
@@ -24,7 +23,6 @@ export class AnomalyService {
 
   constructor(private readonly configService: ConfigService) {
     this.enginePath = this.configService.get<string>('enginePath');
-    this.flawCount = this.configService.get<number>('flawCount');
     this.flawDIM = this.configService.get<number>('flawDIM');
     this.offset = this.configService.get<number>('offset');
     this.channel = this.configService.get<number>('channel');
@@ -67,7 +65,7 @@ export class AnomalyService {
       anomalyParam.imagePath,
       anomalyParam.dbName,
       anomalyParam.imageBuf,
-      this.flawCount,
+      anomalyParam.flawCount,
       this.offset,
       anomalyParam.anomalyThreshold,
       anomalyParam.ignores,
