@@ -16,5 +16,9 @@ const AppConfig = {
     dbPath: 'D:\\kl-storage\\gallery\\db\\',
     samplePath: 'D:\\kl-storage\\gallery\\sample\\',
   },
+
+  registerHealthCheck: 'ws://127.0.0.1:9000?clientType=service',
+  serviceName: '外观检测服务',
+  event: 'AnomalyService',
 };
 export default AppConfig;

@@ -11,6 +11,7 @@ import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 const chalk = require('chalk');
 const figlet = require('figlet');
+import { io } from 'socket.io-client';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,6 +21,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
   swaggerDoc(app);
   dllDump(process.pid);
+  registerHealthCheck();
   await app.listen(process.env.PORT ?? 3200);
   slogan('AOI ANOMALY');
 }
@@ -102,5 +104,15 @@ function configLogger() {
       }),
     ),
     transports: [dailyRotateFileTransport, new winston.transports.Console()],
+  });
+}
+
+function registerHealthCheck() {
+  const socket = io(AppConfig.registerHealthCheck);
+  socket.on('connect', () => {
+    socket.emit('healthCheck', {
+      event: AppConfig.event,
+      serviceName: AppConfig.serviceName,
+    });
   });
 }
