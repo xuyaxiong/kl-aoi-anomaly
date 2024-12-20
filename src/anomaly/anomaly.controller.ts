@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AnomalyService } from './anomaly.service';
-import { AnomalyParam, LoadShildParam } from './anomaly.param';
+import { AnomalyParam } from './anomaly.param';
 import HttpResponse from 'src/utils/api_res';
 
 @Controller('anomaly')

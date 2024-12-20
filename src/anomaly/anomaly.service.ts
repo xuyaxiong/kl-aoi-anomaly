@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-const ref = require('ref-napi') as typeof import('ref-napi');
 const _ = require('lodash');
 import '../extension';
 import { loadImage } from 'src/utils/image_utils';
 import { ShieldInfo } from './anomaly.bo';
 import { AnomalyParam } from './anomaly.param';
 import { anomaly1Dll } from '../wrapper/anomaly';
-import rectifyDll from '../wrapper/rectify';
 
 const resolveMap = new Map();
 const cache = new Map();
@@ -84,23 +82,6 @@ export class AnomalyService {
     return res;
   }
 
-  private _loadShild(mapImgPath: string, maxRow: number, maxCol: number) {
-    const image = loadImage(mapImgPath, maxCol, maxRow, 1);
-    const shildNumBuf = Buffer.alloc(4);
-    const diePointer = ref.alloc('pointer');
-    const retVal = rectifyDll.readDetectRegionInfo(
-      image.buffer,
-      maxRow,
-      maxCol,
-      1,
-      shildNumBuf,
-      diePointer,
-    );
-    const shildNum = shildNumBuf.readUint32LE();
-    const shildBuf = diePointer.readPointer(0, shildNum * 8);
-    return { shildBuf, shildNum };
-  }
-
   private _anomaly(
     fno: number,
     imageName: string,
@@ -126,11 +107,6 @@ export class AnomalyService {
     const fnoStr = fno.toString();
     let detectBuffer = Buffer.alloc(flawCount * offset * 4);
     cache.set(fnoStr, detectBuffer);
-    let { shildNum, shildBuf } = this._loadShild(
-      shildInfo.path,
-      shildInfo.row,
-      shildInfo.col,
-    );
     let image = loadImage(imagePath, this.width, this.height, this.channel);
     const retVal = anomaly1Dll.anomalyDetect_FULL2(
       fnoStr,
@@ -145,8 +121,7 @@ export class AnomalyService {
       ignores.length,
       isFirst,
       1,
-      shildNum,
-      shildBuf,
+      shildInfo.path, // shield path
       detectBuffer,
       (pos as Array<number>).doubleToBuffer(),
       (lensParams as Array<number>).doubleToBuffer(),

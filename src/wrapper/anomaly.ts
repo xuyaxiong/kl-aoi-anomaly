@@ -28,8 +28,7 @@ const anomaly = (anomalyName) => {
         'int',
         'int',
         'int',
-        'int',
-        'double*',
+        'string',
         'float *',
         'double *',
         'double*',
@@ -42,40 +41,6 @@ const anomaly = (anomalyName) => {
         'string',
       ],
     ],
-
-    featureExtract: ['bool', ['uchar *', 'int', 'int', 'int', 'float *']],
-
-    erase: ['int', ['string', 'int', 'int *']],
-
-    erase_type: ['int', ['string', 'int']],
-
-    load_DB: ['int', ['string']],
-
-    release_DB: ['bool', ['string']],
-
-    coreLearn: [
-      'int',
-      [
-        'string',
-        'uchar *',
-        'uchar *',
-        'int',
-        'int',
-        'int',
-        'int',
-        'int',
-        'float',
-        'float *',
-      ],
-    ],
-
-    insert: ['int', ['string', 'int', 'int *', 'int *', 'float *']],
-
-    update_one: ['int', ['string', 'int', 'int', 'float *']],
-
-    update: ['int', ['string', 'int', 'int *', 'int *', 'float *']],
-
-    query: ['bool', ['string', 'int', 'float *', 'float *', 'int *', 'int *']],
 
     setCallback: ['bool', ['pointer']],
 

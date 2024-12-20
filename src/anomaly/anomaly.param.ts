@@ -21,9 +21,3 @@ export interface AnomalyParam {
   imageSavePath: string;
   maskSavePath: string;
 }
-
-export interface LoadShildParam {
-  path: string;
-  maxRow: number;
-  maxCol: number;
-}
