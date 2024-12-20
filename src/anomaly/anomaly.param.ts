@@ -17,7 +17,7 @@ export interface AnomalyParam {
   roiCornerPoint: any;
   chipNum: number;
   chipSize: number[];
-  shildInfo: ShieldInfo;
+  shieldInfo: ShieldInfo;
   imageSavePath: string;
   maskSavePath: string;
 }

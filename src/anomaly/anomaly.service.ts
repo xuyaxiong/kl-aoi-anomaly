@@ -75,7 +75,7 @@ export class AnomalyService {
       anomalyParam.roiCornerPoint,
       anomalyParam.chipNum,
       anomalyParam.chipSize,
-      anomalyParam.shildInfo,
+      anomalyParam.shieldInfo,
       anomalyParam.imageSavePath,
       anomalyParam.maskSavePath,
     );
@@ -100,7 +100,7 @@ export class AnomalyService {
     roiCornerPoint: any,
     chipNum: number,
     chipSize: number[],
-    shildInfo: ShieldInfo,
+    shieldInfo: ShieldInfo,
     imageSavePath: string,
     maskSavePath: string,
   ) {
@@ -121,7 +121,7 @@ export class AnomalyService {
       ignores.length,
       isFirst,
       1,
-      shildInfo.path, // shield path
+      shieldInfo.path, // shield path
       detectBuffer,
       (pos as Array<number>).doubleToBuffer(),
       (lensParams as Array<number>).doubleToBuffer(),
